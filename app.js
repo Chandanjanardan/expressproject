@@ -1,8 +1,8 @@
 
-require("./db/connect")
 const express = require ("express")
 const app = express()
 const tasks=require("./routes/task")
+const connectDB = require("./db/connect")
 
 // middleware
 app.use(express.json())
@@ -14,9 +14,21 @@ app.get("/hello",(req,res)=>{
 })
 app.use("/api/v1/tasks",tasks)
 
-app.listen(PORT,()=>{
-    console.log(`server is listning at port ${PORT}...`)
-})
+const start=async()=>{
+    try {
+        await connectDB()
+        app.listen(PORT,()=>{
+            console.log(`server is listning at port ${PORT}...`)
+        })
+    } catch (error) {
+        console.log(error)
+        
+    }
+}
+
+
+start()
+
 
 // app.get("/api/v1/tasks")--- get all the tasks
 // app.post("api/v1/tasks")--- create a new task
