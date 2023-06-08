@@ -3,9 +3,18 @@ const Task = require("../model/taskModel")
 const getAllTaks=(req,res)=>{
     res.send("All items visible")
 }
-
-const createTask=(req,res)=>{
-    res.json(req.body)
+// after setting model use async
+const createTask=async(req,res)=>{
+    try {
+        const task= await Task.create(req.body)
+    console.log(task)
+    res.status(200).json({task})
+        
+    } catch (error) {
+        res.status(500).json({msg:error})
+        
+    }
+    
 }
 const getTask=(req,res)=>{
     res.json({id:req.params.id})
