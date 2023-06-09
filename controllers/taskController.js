@@ -38,9 +38,7 @@ const getTask=async(req,res)=>{
        res.status(500).json({msg:error}) 
     }
 }
-const updateTask=(req,res)=>{
-    res.send("update task")
-}
+
 const deleteTask=async(req,res)=>{
     try {
         const {id:taskID}= req.params
@@ -54,6 +52,21 @@ const deleteTask=async(req,res)=>{
         
     } catch (error) {
         res.status(500).json({msg:error}) 
+    }
+}
+
+const updateTask=async(req,res)=>{
+    try {
+        const {id:taskID}=req.params
+        // res.status(200).json({id:taskID,data:req.body})
+        const task = await Task.findByIdAndUpdate({_id:taskID},req.body,{
+            new:true,runvalidator:true
+            // when updating it will show old data above code is to change it to new one
+
+        })
+        return res.status(404).json({msg:`No task with id ${taskID}`})
+    } catch (error) {
+        res.status(500).json({msg:error})
     }
 }
 
