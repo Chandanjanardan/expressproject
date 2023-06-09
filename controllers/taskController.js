@@ -62,9 +62,11 @@ const updateTask=async(req,res)=>{
         const task = await Task.findByIdAndUpdate({_id:taskID},req.body,{
             new:true,runvalidator:true
             // when updating it will show old data above code is to change it to new one
+           })
+           res.status(200).json({msg:`id ${taskID} is updated`})
 
-        })
-        return res.status(404).json({msg:`No task with id ${taskID}`})
+        if(!task){
+        return res.status(404).json({msg:`No task with id ${taskID}`})}
     } catch (error) {
         res.status(500).json({msg:error})
     }
